@@ -1,19 +1,20 @@
 set colorCode to ""
 
-repeat while the length of colorCode is less than 6 or the length of colorCode greater than 7
+repeat while the length of colorCode is not equal to 7
     set colorCode to the text returned of (display dialog "Enter color code (format #RRGGBB):" default answer "#")
-end repeat 
-
-if character 1 of colorCode is equal to "#" then
-    set colorCode to characters 1 thru 7 of colorCode
-else
-    set colorCode to "#" & characters 1 thru 6 of colorCode
-end if
+    if character 1 of colorCode is not equal to "#" then
+        set colorCode to "#" & colorCode
+    end if
+end repeat
 
 set inputFolder to choose folder with prompt "Select originals folder:"
-set outputFolder to choose folder with prompt "Select output folder:"
+
+-- Try to find a way to do this without using finder
+tell application "Finder" to set inputFolderParent to container of inputFolder as alias
+set outputFolder to choose folder with prompt "Select output folder:" default location inputFolderParent
 
 set inputPath to "'" & (the POSIX path of inputFolder) & "'"
 set outputPath to "'" & (the POSIX path of outputFolder) & "'"
 
-do shell script "/usr/local/bin/mogrify -background " & "\"" & colorCode & "\"" & " -alpha remove -alpha off -path " & outputPath & "/ " & inputPath & "*.png"
+do shell script "/usr/local/bin/mogrify -background " & "\"" & colorCode &Â
+                "\"" & " -alpha remove -alpha off -path " & outputPath & "/ " & inputPath & "*.png"
