@@ -16,5 +16,5 @@ set outputFolder to choose folder with prompt "Select output folder:" default lo
 set inputPath to "'" & (the POSIX path of inputFolder) & "'"
 set outputPath to "'" & (the POSIX path of outputFolder) & "'"
 
-do shell script "/usr/local/bin/mogrify -background " & "\"" & colorCode &Â
+do shell script "magick mogrify -background " & "\"" & colorCode &Â
                 "\"" & " -alpha remove -alpha off -path " & outputPath & "/ " & inputPath & "*.png"
